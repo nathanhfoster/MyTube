@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "624100953181",
+    "project_id": "regal-airway-188121"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:624100953181:android:5958fc707ef57639",
+        "android_client_info": {
+          "package_name": "com.bytemecollege.mytube"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "624100953181-copn2l99ck4v51ogfl9l6urvup6k28qn.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "624100953181-fbk0vamq15c08p069lmjl1h7hltst4i2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bytemecollege.mytube",
+            "certificate_hash": "61d648f6769e1c424acac58c450d6146954330c7"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoaQVw4mhTs8zFOVRGKosq317hPLywP5g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
