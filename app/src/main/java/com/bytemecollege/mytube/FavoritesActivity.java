@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import java.io.BufferedInputStream;
@@ -28,6 +30,9 @@ public class FavoritesActivity extends Fragment {
     Youtube youtube = new Youtube();
     List<Youtube> youtubes = new ArrayList<Youtube>();
 
+    private List<Youtube> favList;
+
+
 
     private static final String TAG = "FavoriteFragment";
 
@@ -39,6 +44,10 @@ public class FavoritesActivity extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+
+//        super.onCreate(savedInstanceState);
+
         View view = inflater.inflate(R.layout.activity_favorites, container, false);
 //        new JsonTask().execute();
 
@@ -48,14 +57,49 @@ public class FavoritesActivity extends Fragment {
 
         videoListView.setAdapter(adapt);
 
+//        delete.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.d("DELETE", "DELETE");
+//            }
+//        });
+
+//        delete.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.d("DELETE", "DELETE");
+//            }
+//        });
+
+
+
+
         return view;
     }
+
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         new JsonTask().execute();
     }
+
+    public List<Youtube> getFavList() {
+        return favList;
+    }
+
+//    @Override
+//    public void onClick(View v) {
+//        switch (v.getId()) {
+//            case R.id.delFav:
+//                Log.d("DELETE", "DELETE");
+//
+//            default:
+//                break;
+//        }
+//    }
+
 
     private class JsonTask extends AsyncTask<String, String, String> {
 

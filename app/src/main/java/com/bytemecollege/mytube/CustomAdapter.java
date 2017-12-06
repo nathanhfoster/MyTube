@@ -1,9 +1,12 @@
 package com.bytemecollege.mytube;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Parcelable;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +15,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import static android.app.PendingIntent.getActivity;
+import static android.support.v4.app.ActivityCompat.startActivityForResult;
 
 
 public class CustomAdapter extends ArrayAdapter<Youtube> {
@@ -50,15 +57,22 @@ public class CustomAdapter extends ArrayAdapter<Youtube> {
         final Youtube p = getItem(position);
 
         if (p != null) {
-            ImageView tt1 =  v.findViewById(R.id.imageView2);
+            ImageView tt1 =  v.findViewById(R.id.favImage);
             TextView tt2 =  v.findViewById(R.id.video_Name);
             TextView tt3 =  v.findViewById(R.id.date);
-            Button btn = v.findViewById(R.id.btnFav);
+            Button btnFav = v.findViewById(R.id.btnFav);
 
-            btn.setOnClickListener(new View.OnClickListener() {
+            btnFav.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    favList.add(p);
+                    if(!favList.contains(p)){
+                        favList.add(p);
+//                        Log.d("FAVLIST", favList.toString());
+                        Toast.makeText(context,"Added to favorites!",Toast.LENGTH_SHORT).show();
+                        Intent favorite = new Intent(getContext(), VideoActivity.class);
+//                        favorite.putExtra("FavList", (Serializable) favList);
+//                        context.startActivity(favorite);
+                    }
                 }
             });
 

@@ -3,13 +3,15 @@ package com.bytemecollege.mytube;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.List;
 public class FavAdapter extends ArrayAdapter<Youtube> {
     private final Context context;
     private final int resourceID;
+    private List<Youtube> youtubeList;
 
     public static List<Youtube> getFavList() {
         return favList;
@@ -35,6 +38,7 @@ public class FavAdapter extends ArrayAdapter<Youtube> {
 
         this.context = context;
         this.resourceID = resource;
+        this.youtubeList = youtubes;
     }
 
     @Override
@@ -51,9 +55,10 @@ public class FavAdapter extends ArrayAdapter<Youtube> {
         final Youtube p = getItem(position);
 
         if (p != null) {
-            ImageView tt1 =  v.findViewById(R.id.imageView2);
+            ImageView tt1 =  v.findViewById(R.id.favImage);
             TextView tt2 =  v.findViewById(R.id.video_Name);
             TextView tt3 =  v.findViewById(R.id.date);
+            ImageButton delete = v.findViewById(R.id.deleteFavorite);
 
             tt1.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -61,6 +66,15 @@ public class FavAdapter extends ArrayAdapter<Youtube> {
                     Intent move = new Intent(getContext(), VideoActivity.class);
                     move.putExtra("videoID", p.getVideoId());
                     context.startActivity(move);
+                }
+            });
+
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    youtubeList.remove(p);
+                    notifyDataSetChanged();
+                    Toast.makeText(context,"Deleted!",Toast.LENGTH_SHORT).show();
                 }
             });
 

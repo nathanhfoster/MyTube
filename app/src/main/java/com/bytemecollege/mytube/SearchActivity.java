@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -36,22 +37,13 @@ import java.util.List;
 public class SearchActivity extends Fragment implements View.OnClickListener {
 
     Youtube youtube = new Youtube();
-    List<Youtube> youtubes = new ArrayList<Youtube>();
-
-    String[] names = {"Nathan"};
-    String[] description = {"Description"};
-    int[] images = {1,1,1,1};
-
-
+    static List<Youtube> youtubes = new ArrayList<Youtube>();
 
 
     private static final String TAG = "SearchFragment";
     private EditText searchText;
     private Button searchYouTube, favorite;
     private ListView videoListView;
-    private ImageView videoImage;
-    private TextView videoName;
-    private TextView videoDesc;
     private ArrayList<String> row = new ArrayList<>();
 
     //LIST OF ARRAY STRINGS WHICH WILL SERVE AS LIST ITEMS
@@ -69,9 +61,6 @@ public class SearchActivity extends Fragment implements View.OnClickListener {
 
         videoListView = view.findViewById(R.id.searchRestultsListView);
 
-
-        row.add("Testing");
-        row.add("Testing2");
         adapter = new CustomAdapter(getActivity(), R.layout.row, youtubes);
 
         videoListView.setAdapter(adapter);
@@ -106,9 +95,17 @@ public class SearchActivity extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_Search_YouTube:
+
+                // Autohide keyboard
+//                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                if (null != getActivity().getCurrentFocus())
+//                    imm.hideSoftInputFromWindow(getActivity().getCurrentFocus()
+//                            .getApplicationWindowToken(), 0);
+
 //                Log.d("Search Button", searchText.getText().toString());
                 youtubes.removeAll(youtubes);
                 new JsonTask().execute(searchText.getText().toString());
+                adapter.notifyDataSetChanged();
 //            case R.id.btnFav:
 //                ListView lv = (ListView) v.findViewById(R.id.searchRestultsListView);
 //                final int position = lv.getPositionForView((RelativeLayout)v.getParent());
