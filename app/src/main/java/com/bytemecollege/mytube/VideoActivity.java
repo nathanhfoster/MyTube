@@ -1,47 +1,60 @@
 package com.bytemecollege.mytube;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.widget.Toast;
 
-public class VideoActivity extends AppCompatActivity {
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayer.Provider;
+import com.google.android.youtube.player.YouTubePlayerView;
 
-    private WebView video;
+public class VideoActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
+
+    public static final String YOUTUBE_API_KEY = "AIzaSyBJ4QLlNjN5Q1KePud2mzPS3Uhad87JbmQ";
+    private static final int RECOVERY_REQUEST = 1;
+    private YouTubePlayerView youTubeView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
 
+
+
+
+        youTubeView = findViewById(R.id.youtube_view);
+        youTubeView.initialize(YOUTUBE_API_KEY, this);
+    }
+
+    @Override
+    public void onInitializationSuccess(Provider provider, YouTubePlayer player, boolean wasRestored) {
         String videoID = getIntent().getStringExtra("videoID");
+        if (!wasRestored) {
+            player.cueVideo(videoID); // Plays https://www.youtube.com/watch?v=fhWaJi1Hsfo
+        }
+    }
 
-        video = (WebView) findViewById(R.id.web_Video);
-        video.setInitialScale(1);
-        video.getSettings().setPluginState(WebSettings.PluginState.ON);
+    @Override
+    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult errorReason) {
+        if (errorReason.isUserRecoverableError()) {
+            errorReason.getErrorDialog(this, RECOVERY_REQUEST).show();
+        } else {
+            String error = String.format(getString(R.string.player_error), errorReason.toString());
+            Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+        }
+    }
 
-        video.setWebViewClient(new WebViewClient()
-        {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url)
-            {
-                view.loadUrl(url);
-                return true;
-            }
-        });
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == RECOVERY_REQUEST) {
+            // Retry initialization if user performed a recovery action
+            getYouTubePlayerProvider().initialize(YOUTUBE_API_KEY, this);
+        }
+    }
 
-        WebSettings webSettings = video.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setBuiltInZoomControls(false);
-        webSettings.setAllowContentAccess(true);
-        webSettings.setEnableSmoothTransition(true);
-        webSettings.setLoadsImagesAutomatically(true);
-        webSettings.setLoadWithOverviewMode(true);
-        webSettings.setSupportZoom(false);
-        webSettings.setUseWideViewPort(true);
-        webSettings.setAppCacheEnabled(true);
-        webSettings.setSupportMultipleWindows(false);
-        video.loadUrl("https://youtu.be/"+videoID);
+    protected Provider getYouTubePlayerProvider() {
+        return youTubeView;
     }
 }
