@@ -5,20 +5,36 @@
     android:layout_height="match_parent">
 
 
-
-    <EditText
-        android:id="@+id/searchFavorites"
+       <EditText
+        android:id="@+id/text_searchFavorites"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
 
         android:layout_marginVertical="125sp"
-        android:gravity="center_vertical|left"
+        android:layout_toStartOf="@+id/btn_Search_YouTube"
 
+        android:gravity="center_vertical|left"
         android:hint="Search..."
         android:inputType="textAutoComplete"
-        android:labelFor="@id/searchFavorites" />
+        android:labelFor="@id/text_searchFavorites" />
 
+    <Button
+        android:id="@+id/btn_Search_YouTube"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/text_searchFavorites"
+        android:layout_alignParentEnd="true"
+        android:background="@color/colorPrimary"
+        android:text="Search"
+        android:textColor="@android:color/white" />
+
+    <ListView
+        android:id="@+id/searchRestultsListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btn_Search_YouTube" />
 
 
 </RelativeLayout>
